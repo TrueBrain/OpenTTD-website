@@ -1,0 +1,16 @@
+name: New Release
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  new_release:
+    name: New Release
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Copy main branch to production branch
+      run: |
+        git push -f origin main:production
