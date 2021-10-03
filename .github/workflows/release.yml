@@ -1,0 +1,21 @@
+name: New Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  new_release:
+    name: New Release
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Copy main branch to production branch
+      uses: octokit/request-action@v2.x
+      with:
+        route: PATCH /repos/{repository}/git/refs/production
+        repository: ${{ github.repository }}
+        sha: ${{ github.event.release.target_commitish }}
+        force: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
